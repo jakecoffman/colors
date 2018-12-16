@@ -1,29 +1,9 @@
 # coloretto
 
-## Project setup
-```
-npm install
-```
+Since Coloretto is a game of perfect information, 
+you can play it with just a single client broadcasted
+on a TV (with no server).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Just hit jakecoffman.com/coloretto (once it's done).
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Oh, and do buy the game too.
