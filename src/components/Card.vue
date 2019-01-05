@@ -23,5 +23,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .card > img {
+    width: 40%;
+  }
 </style>

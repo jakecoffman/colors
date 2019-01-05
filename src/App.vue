@@ -310,7 +310,7 @@
   }
 
   .players {
-    font-size: 8vw;
+    font-size: 10vh;
     display: flex;
   }
 
