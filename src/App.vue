@@ -9,48 +9,60 @@
         <button @click="setPlayers(5)">5</button>
       </div>
     </section>
-    <section v-if="state !== 'starting'" class="board">
-      <h2 v-if="state === 'end'">Game Over!</h2>
-      <div class="flex">
-        <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
-        <card v-if="flippedCard" :card="flippedCard"/>
-      </div>
-      <div class="rows grow">
-        <div v-for="(lane, index) of lanes" :key="index" class="flex">
-          <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
-            ADD
-          </button>
-          <button v-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0">
-            {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
-          </button>
-          <div v-for="(card, index) of lane" :key="index">
-            <card :card="card"/>
+
+    <section v-else class="main">
+      <!-- Status -->
+      <h2>
+        <span v-if="state === 'end'">Game Over!</span>
+        <span v-else>Player {{players[0].name}}'s turn</span>
+      </h2>
+
+      <div class="board">
+        <!-- Cards -->
+        <div class="rows grow">
+          <div class="flex">
+            <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
+            <card v-if="flippedCard" :card="flippedCard"/>
+          </div>
+          <div v-for="(lane, index) of lanes" :key="index" class="flex">
+            <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
+              ADD
+            </button>
+            <button v-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0">
+              {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
+            </button>
+            <div v-for="(card, index) of lane" :key="index">
+              <card :card="card"/>
+            </div>
           </div>
         </div>
+
+        <!-- Players -->
+        <transition-group name="list-complete" class="grow">
+          <div v-for="player of players" :key="player.name" class="players list-complete-item" :class="{done: player.done}">
+            <span class="nums">
+              <span class="blue" v-if="player.blue">{{player.blue}}</span>
+              <span class="red" v-if="player.red">{{player.red}}</span>
+              <span class="orange" v-if="player.orange">{{player.orange}}</span>
+              <span class="yellow" v-if="player.yellow">{{player.yellow}}</span>
+              <span class="brown" v-if="player.brown">{{player.brown}}</span>
+              <span class="green" v-if="player.green">{{player.green}}</span>
+              <span class="violet" v-if="player.violet">{{player.violet}}</span>
+              <span class="wild" v-if="player.wild">{{player.wild}}</span>
+              <span class="plus2" v-if="player.plus2">{{player.plus2}}</span>
+            </span>
+            <span contenteditable class="name">{{player.name}}</span>
+            <span class="score">{{player.score}}</span>
+          </div>
+        </transition-group>
+
       </div>
-      <transition-group name="list-complete" class="grow">
-        <div v-for="player of players" :key="player.name" class="players list-complete-item" :class="{done: player.done}">
-          <span class="nums">
-            <span class="blue" v-if="player.blue">{{player.blue}}</span>
-            <span class="red" v-if="player.red">{{player.red}}</span>
-            <span class="orange" v-if="player.orange">{{player.orange}}</span>
-            <span class="yellow" v-if="player.yellow">{{player.yellow}}</span>
-            <span class="brown" v-if="player.brown">{{player.brown}}</span>
-            <span class="green" v-if="player.green">{{player.green}}</span>
-            <span class="violet" v-if="player.violet">{{player.violet}}</span>
-            <span class="wild" v-if="player.wild">{{player.wild}}</span>
-            <span class="plus2" v-if="player.plus2">{{player.plus2}}</span>
-          </span>
-          <span contenteditable class="name">{{player.name}}</span>
-          <span class="score">{{player.score}}</span>
-        </div>
-      </transition-group>
     </section>
   </div>
 </template>
 
 <script>
-  window.onbeforeunload = function() {
+  window.onbeforeunload = function () {
     return true;
   };
 
@@ -129,7 +141,7 @@
       },
       flip() {
         let canFlip = false
-        for (let i=0; i<this.lanes.length; i++) {
+        for (let i = 0; i < this.lanes.length; i++) {
           if (!this.lanes[i].picked && this.lanes[i].length < 3) {
             canFlip = true
             break
@@ -237,11 +249,33 @@
 </script>
 
 <style>
+  html, body, #app, .main {
+    height: 100%;
+  }
+
   body {
     font-size: 5vw;
     background: black;
     color: rgb(194, 194, 194);
     font-family: monospace;
+  }
+
+  .main {
+    display: grid;
+    grid-template-rows: 4rem 1fr;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  h2 {
+    font-size: 48pt;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 
   button {
@@ -312,6 +346,7 @@
   .players {
     font-size: 10vh;
     display: flex;
+    padding-bottom: 1rem;
   }
 
   .nums {
@@ -392,11 +427,6 @@
     }
   }
 
-  .board {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .list-complete-item {
     transition: all 1s;
     /*display: inline-block;*/
@@ -404,7 +434,6 @@
   }
 
   .list-complete-enter, .list-complete-leave-to
-    /* .list-complete-leave-active below version 2.1.8 */
   {
     opacity: 0;
     transform: translateY(30px);
@@ -417,10 +446,6 @@
   .score {
     border: white 5px solid;
     border-radius: 50px;
-  }
-
-  h2 {
-    float: left;
   }
 
   .rows {
