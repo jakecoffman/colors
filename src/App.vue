@@ -14,7 +14,10 @@
       <!-- Status -->
       <h2>
         <span v-if="state === 'end'">Game Over!</span>
-        <span v-else>Player {{players[0].name}}'s turn</span>
+        <span v-else>
+          Player {{players[0].name}}'s turn
+          <button @click="goFullscreen(true)">↕️</button>
+        </span>
       </h2>
 
       <div class="board">
@@ -243,6 +246,34 @@
           return 21
         }
         return 0
+      },
+      isFullScreen() {
+        const attemptToGetState = element => element && element !== null
+        return attemptToGetState(document.fullscreenElement) ||
+          attemptToGetState(document.webkitFullscreenElement) ||
+          attemptToGetState(document.mozFullScreenElement) ||
+          attemptToGetState(document.msFullscreenElement)
+      },
+      goFullscreen(v) {
+        if (v === true) {
+          const el = document.body;
+          const requestMethod = el.requestFullScreen || el.webkitRequestFullScreen
+            || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+          if (requestMethod) {
+            requestMethod.call(el)
+          }
+          return
+        }
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
       }
     }
   }
