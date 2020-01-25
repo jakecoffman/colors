@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{rotate}">
     <img v-if="card.color === 'blue'" src="../assets/blue.png"/>
     <img v-if="card.color === 'brown'" src="../assets/brown.png"/>
     <img v-if="card.color === 'green'" src="../assets/green.png"/>
@@ -16,14 +16,16 @@
 <script>
 export default {
   name: 'Card',
-  props: {
-    card: {}
-  }
+  props: ['card', 'rotate']
 }
 </script>
 
 <style scoped>
   .card > img {
-    width: 40%;
+    width: 100%;
+  }
+  .rotate {
+    transform: rotate(-90deg);
+    width: 20%;
   }
 </style>

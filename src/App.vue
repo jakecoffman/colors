@@ -2,64 +2,55 @@
   <div id="app">
     <section v-if="state==='starting'">
       <h1>Coloretto</h1>
-      <p>Select number of players:</p>
+      <button @click="goFullscreen(true)">go fullscreen</button>
+      <p>select number of players:</p>
       <div class="flex set-players">
-        <button @click="setPlayers(3)">3</button>
-        <button @click="setPlayers(4)">4</button>
-        <button @click="setPlayers(5)">5</button>
+        <button @click="setPlayers(3)" class="grow">3</button>
+        <button @click="setPlayers(4)" class="grow">4</button>
+        <button @click="setPlayers(5)" class="grow">5</button>
       </div>
     </section>
 
-    <section v-else class="main">
-      <!-- Status -->
-      <h2>
-        <span v-if="state === 'end'">Game Over!</span>
-        <span v-else>
-          Player {{players[0].name}}'s turn
-          <button @click="goFullscreen(true)">↕️</button>
-        </span>
-      </h2>
-
-      <div class="board">
-        <!-- Cards -->
-        <div class="rows grow">
-          <div class="flex">
-            <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
-            <card v-if="flippedCard" :card="flippedCard"/>
-          </div>
-          <div v-for="(lane, index) of lanes" :key="index" class="flex">
-            <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
-              ADD
-            </button>
-            <button v-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0">
-              {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
-            </button>
-            <div v-for="(card, index) of lane" :key="index">
-              <card :card="card"/>
-            </div>
-          </div>
-        </div>
-
-        <!-- Players -->
-        <transition-group name="list-complete" class="grow">
-          <div v-for="player of players" :key="player.name" class="players list-complete-item" :class="{done: player.done}">
-            <span class="nums">
-              <span class="blue" v-if="player.blue">{{player.blue}}</span>
-              <span class="red" v-if="player.red">{{player.red}}</span>
-              <span class="orange" v-if="player.orange">{{player.orange}}</span>
-              <span class="yellow" v-if="player.yellow">{{player.yellow}}</span>
-              <span class="brown" v-if="player.brown">{{player.brown}}</span>
-              <span class="green" v-if="player.green">{{player.green}}</span>
-              <span class="violet" v-if="player.violet">{{player.violet}}</span>
-              <span class="wild" v-if="player.wild">{{player.wild}}</span>
-              <span class="plus2" v-if="player.plus2">{{player.plus2}}</span>
-            </span>
-            <span contenteditable class="name">{{player.name}}</span>
-            <span class="score">{{player.score}}</span>
-          </div>
-        </transition-group>
-
+    <section v-else class="board">
+      <div class="flex">
+        <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
+        <card v-if="flippedCard" :card="flippedCard"/>
       </div>
+
+      <!-- Cards -->
+      <div class="rows">
+        <div v-for="(lane, index) of lanes" :key="index" class="flex" style="max-height: 60px;">
+          <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
+            ADD {{index+1}}
+          </button>
+          <button v-else-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0" class="take">
+            {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
+          </button>
+          <button v-else disabled>
+            LANE {{index+1}}
+          </button>
+          <card v-for="(card, index) of lane" :key="index" :card="card" :rotate="true"/>
+        </div>
+      </div>
+
+      <!-- Players -->
+      <transition-group name="list-complete" class="grow">
+        <div v-for="player of players" :key="player.name" class="players list-complete-item" :class="{done: player.done}">
+          <span class="nums">
+            <span class="num blue" v-if="player.blue">{{player.blue}}</span>
+            <span class="num red" v-if="player.red">{{player.red}}</span>
+            <span class="num orange" v-if="player.orange">{{player.orange}}</span>
+            <span class="num yellow" v-if="player.yellow">{{player.yellow}}</span>
+            <span class="num brown" v-if="player.brown">{{player.brown}}</span>
+            <span class="num green" v-if="player.green">{{player.green}}</span>
+            <span class="num violet" v-if="player.violet">{{player.violet}}</span>
+            <span class="num wild" v-if="player.wild">{{player.wild}}</span>
+            <span class="num plus2" v-if="player.plus2">{{player.plus2}}</span>
+          </span>
+          <span contenteditable class="name">{{player.name}}</span>
+          <span class="score">{{player.score}}</span>
+        </div>
+      </transition-group>
     </section>
   </div>
 </template>
@@ -280,7 +271,7 @@
 </script>
 
 <style>
-  html, body, #app, .main {
+  html, body, #app {
     height: 100%;
   }
 
@@ -298,7 +289,7 @@
 
   .board {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr 2fr;
   }
 
   h2 {
@@ -317,6 +308,7 @@
     color: white;
     padding: 1rem;
     cursor: pointer;
+    font-family: monospace;
   }
 
   [disabled] {
@@ -337,31 +329,32 @@
   }
 
   .red {
-    color: red;
+    background: red;
   }
 
   .blue {
-    color: blue;
+    background: blue;
   }
 
   .brown {
-    color: brown;
+    background: brown;
   }
 
   .green {
-    color: green;
+    background: green;
   }
 
   .orange {
-    color: rgb(255, 136, 0);
+    background: rgb(255, 136, 0);
   }
 
   .violet {
-    color: violet;
+    background: violet;
   }
 
   .yellow {
-    color: yellow;
+    color: black !important;
+    background: yellow;
   }
 
   .wild {
@@ -371,90 +364,107 @@
   }
 
   .plus2 {
-    color: white;
+    color: black !important;
+    background: white;
   }
 
   .players {
     font-size: 10vh;
     display: flex;
-    padding-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding-top: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .done {
+    background-color: #414141;
+    border-radius: 10px;
+    border: 1px black solid;
   }
 
   .nums {
     flex-grow: 1;
-    padding-right: 50px;
     text-align: center;
+  }
+
+  .num {
+    color: white;
+    border-radius: 3px;
+    padding: 2px;
+    margin-left: 5px;
   }
 
   @-webkit-keyframes rainbow {
     0% {
-      color: red;
+      background: red;
     }
     15% {
-      color: blue;
+      background: blue;
     }
     30% {
-      color: brown;
+      background: brown;
     }
     45% {
-      color: green;
+      background: green;
     }
     60% {
-      color: yellow;
+      background: yellow;
     }
     75% {
-      color: violet;
+      background: violet;
     }
     100% {
-      color: orange;
+      background: orange;
     }
   }
 
   @-ms-keyframes rainbow {
     0% {
-      color: red;
+      background: red;
     }
     15% {
-      color: blue;
+      background: blue;
     }
     30% {
-      color: brown;
+      background: brown;
     }
     45% {
-      color: green;
+      background: green;
     }
     60% {
-      color: yellow;
+      background: yellow;
     }
     75% {
-      color: violet;
+      background: violet;
     }
     100% {
-      color: orange;
+      background: orange;
     }
   }
 
   @keyframes rainbow {
     0% {
-      color: red;
+      background: red;
     }
     15% {
-      color: blue;
+      background: blue;
     }
     30% {
-      color: brown;
+      background: brown;
     }
     45% {
-      color: green;
+      background: green;
     }
     60% {
-      color: yellow;
+      background: yellow;
     }
     75% {
-      color: violet;
+      background: violet;
     }
     100% {
-      color: orange;
+      background: orange;
     }
   }
 
@@ -485,8 +495,7 @@
     justify-content: space-between;
   }
 
-  .done {
-    background-color: #414141;
-    border-radius: 50px;
+  .take {
+    white-space: nowrap;
   }
 </style>
