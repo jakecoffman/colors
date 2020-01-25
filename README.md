@@ -1,9 +1,15 @@
 # coloretto
 
-Since Coloretto is a game of perfect information, 
-you can play it with just a single client broadcasted
-on a TV (with no server).
-
-Oh, and do buy the game too.
+The card game Coloretto in digital form. 
 
 ![demo](demo.gif)
+
+## features
+
+- no server, client only
+- optimized for chromecast
+- install to home screen play on an airplane
+- automatically counts score
+- sick transitions
+- check out those wild cards
+- black background saves battery
