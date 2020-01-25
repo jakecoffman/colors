@@ -5,3 +5,5 @@ you can play it with just a single client broadcasted
 on a TV (with no server).
 
 Oh, and do buy the game too.
+
+![demo](demo.gif)
