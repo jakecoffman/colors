@@ -1,6 +1,6 @@
-# coloretto
+# Colors
 
-The card game Coloretto in digital form. 
+Coloretto clone 
 
 ![demo](demo.gif)
 

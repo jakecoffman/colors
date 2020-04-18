@@ -2,7 +2,7 @@
   <div id="app">
     <section v-if="state==='starting'">
       <button @click="goFullscreen(true)" style="float:right">go fullscreen</button>
-      <h1>Coloretto</h1>
+      <h1>Colors</h1>
       <p>select number of players:</p>
       <div class="flex set-players">
         <button @click="setPlayers(3)" class="grow">3</button>
