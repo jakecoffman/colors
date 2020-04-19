@@ -9,6 +9,16 @@
         <button @click="setPlayers(4)" class="grow">4</button>
         <button @click="setPlayers(5)" class="grow">5</button>
       </div>
+      <h2>how to play</h2>
+      <p class="small">
+        Get the most points by collecting as much of the same color
+        as possible. A large variety of colors will lower your score.
+      </p>
+      <p class="small">
+        Wilds are automatically counted as the highest scoring color.
+        The 2 cards just give you 2 points.
+      </p>
+      <p class="small">Each player's score is kept up to date in the circle.</p>
     </section>
 
     <section v-else class="board">
@@ -19,7 +29,7 @@
 
       <!-- Cards -->
       <div class="rows">
-        <div v-for="(lane, index) of lanes" :key="index" class="flex" style="max-height: 90px;">
+        <div v-for="(lane, index) of lanes" :key="index" class="row">
           <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
             ADD {{index+1}}
           </button>
@@ -369,10 +379,11 @@
   }
 
   .players {
-    font-size: 8vh;
+    font-size: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: .25rem;
   }
 
   .done {
@@ -492,11 +503,20 @@
     justify-content: space-between;
   }
 
+  .row {
+    display: flex;
+    margin-bottom: .25rem;
+  }
+
   .take {
     white-space: nowrap;
   }
 
   #flipped-card {
     margin-right: .5rem;
+  }
+
+  .small {
+    font-size: 24pt;
   }
 </style>
