@@ -369,13 +369,10 @@
   }
 
   .players {
-    font-size: 10vh;
+    font-size: 8vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .5rem;
   }
 
   .done {
