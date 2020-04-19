@@ -1,15 +1,15 @@
 <template>
-  <div class="card" :class="{rotate}">
-    <img v-if="card.color === 'blue'" src="../assets/blue.png"/>
-    <img v-if="card.color === 'brown'" src="../assets/brown.png"/>
-    <img v-if="card.color === 'green'" src="../assets/green.png"/>
-    <img v-if="card.color === 'orange'" src="../assets/orange.png"/>
-    <img v-if="card.color === 'red'" src="../assets/red.png"/>
-    <img v-if="card.color === 'violet'" src="../assets/violet.png"/>
-    <img v-if="card.color === 'yellow'" src="../assets/yellow.png"/>
-    <img v-if="card.type === 'wild'" src="../assets/wild.png"/>
-    <img v-if="card.type === 'plus2'" src="../assets/plus2.png"/>
-    <img v-if="card.type === 'end'" src="../assets/end.png"/>
+  <div class="card">
+    <div v-if="card.color === 'blue'" class="blue">B</div>
+    <div v-if="card.color === 'brown'" class="brown">Br</div>
+    <div v-if="card.color === 'green'" class="green">G</div>
+    <div v-if="card.color === 'orange'" class="orange">O</div>
+    <div v-if="card.color === 'red'" class="red">R</div>
+    <div v-if="card.color === 'violet'" class="violet">V</div>
+    <div v-if="card.color === 'yellow'" class="yellow">Y</div>
+    <div v-if="card.type === 'wild'" class="wild">W</div>
+    <div v-if="card.type === 'plus2'" class="plus2">2</div>
+    <div v-if="card.type === 'end'" class="end">END</div>
   </div>
 </template>
 
@@ -21,11 +21,18 @@ export default {
 </script>
 
 <style scoped>
-  .card > img {
-    width: 100%;
+  .card {
+    color: black !important;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    margin-right: .25rem;
+    margin-left: .25rem;
   }
-  .rotate {
-    transform: rotate(-90deg);
-    width: 20%;
+  .card > div {
+    line-height: 80px;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
   }
 </style>

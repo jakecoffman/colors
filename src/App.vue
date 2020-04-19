@@ -12,14 +12,14 @@
     </section>
 
     <section v-else class="board">
-      <div class="flex">
+      <div>
         <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
-        <card v-if="flippedCard" :card="flippedCard"/>
+        <card v-if="flippedCard" :card="flippedCard" id="flipped-card"/>
       </div>
 
       <!-- Cards -->
       <div class="rows">
-        <div v-for="(lane, index) of lanes" :key="index" class="flex" style="max-height: 60px;">
+        <div v-for="(lane, index) of lanes" :key="index" class="flex" style="max-height: 90px;">
           <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
             ADD {{index+1}}
           </button>
@@ -497,5 +497,9 @@
 
   .take {
     white-space: nowrap;
+  }
+
+  #flipped-card {
+    margin-right: .5rem;
   }
 </style>
