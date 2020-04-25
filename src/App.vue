@@ -22,13 +22,21 @@
     </section>
 
     <section v-else class="board">
-      <div>
-        <button v-if="state !== 'end' && (!flippedCard || flippedCard.type === 'end')" @click="flip()">FLIP</button>
+      <div id="flipsville">
+        <button id="flip-btn" :disabled="state === 'end' || (flippedCard && flippedCard.type !== 'end')" @click="flip()">
+          FLIP
+        </button>
         <card v-if="flippedCard" :card="flippedCard" id="flipped-card"/>
+        <p v-else-if="state === 'end'">
+          Game Over
+        </p>
+        <p style="font-size: 1.5rem; margin-left: 2px;" v-else>
+          Flip or Take
+        </p>
       </div>
 
       <!-- Cards -->
-      <div class="rows">
+      <div :class="{three: numPlayers === 3, four: numPlayers === 4, five: numPlayers === 5}">
         <div v-for="(lane, index) of lanes" :key="index" class="row">
           <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
             ADD {{index+1}}
@@ -44,8 +52,8 @@
       </div>
 
       <!-- Players -->
-      <transition-group name="list-complete" class="grow">
-        <div v-for="player of players" :key="player.name" class="players list-complete-item" :class="{done: player.done}">
+      <transition-group name="list-complete" :class="{three: numPlayers === 3, four: numPlayers === 4, five: numPlayers === 5}">
+        <div v-for="player of players" :key="player.name" class="player list-complete-item" :class="{done: player.done}">
           <span class="nums">
             <span class="num blue" v-if="player.blue">{{player.blue}}</span>
             <span class="num red" v-if="player.red">{{player.red}}</span>
@@ -283,6 +291,8 @@
 <style>
   html, body, #app {
     height: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   body {
@@ -299,7 +309,10 @@
 
   .board {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-columns: 1fr 3fr 3fr;
+    max-height: 100%;
+    height: 100%;
+    max-width: 100%;
   }
 
   h2 {
@@ -316,7 +329,7 @@
     border: 0;
     border-radius: 5px;
     color: white;
-    padding: 1rem;
+    padding: .25rem;
     cursor: pointer;
     font-family: monospace;
   }
@@ -378,12 +391,15 @@
     background: white;
   }
 
-  .players {
-    font-size: 10vh;
+  .end {
+    color: black !important;
+    background: white;
+  }
+
+  .player {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: .25rem;
   }
 
   .done {
@@ -394,7 +410,6 @@
 
   .nums {
     flex-grow: 1;
-    text-align: center;
   }
 
   .num {
@@ -493,19 +508,32 @@
   }
 
   .score {
-    border: white 5px solid;
-    border-radius: 50px;
+    text-decoration: underline;
+    margin-left: 5px;
   }
 
-  .rows {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .three {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: .25rem;
+  }
+
+  .four {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: .25rem;
+  }
+
+  .five {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: .25rem;
   }
 
   .row {
     display: flex;
-    margin-bottom: .25rem;
+    max-height: 100%;
+    overflow: hidden;
   }
 
   .take {
@@ -513,10 +541,22 @@
   }
 
   #flipped-card {
-    margin-right: .5rem;
+    width: 95%;
+    margin-left: -1px;
   }
 
   .small {
     font-size: 24pt;
+  }
+
+  #flip-btn {
+    width: 95%;
+    height: 100%;
+  }
+
+  #flipsville {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1rem;
   }
 </style>

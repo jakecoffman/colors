@@ -24,13 +24,15 @@ export default {
   .card {
     color: black !important;
     text-align: center;
-    width: 70px;
-    height: 70px;
-    margin-right: .25rem;
+    min-width: 50px;
+    min-height: 50px;
     margin-left: .25rem;
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
   }
   .card > div {
-    line-height: 70px;
     width: 100%;
     height: 100%;
     border-radius: 5px;
