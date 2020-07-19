@@ -2,6 +2,8 @@
 
 Coloretto clone 
 
+http://www.jakecoffman.com/colors
+
 ![demo](demo.gif)
 
 ## features
