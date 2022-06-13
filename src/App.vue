@@ -528,7 +528,8 @@
   }
 
   .row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     max-height: 100%;
     overflow: hidden;
   }
