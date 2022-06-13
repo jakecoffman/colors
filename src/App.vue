@@ -251,10 +251,7 @@
         if (input === 5) {
           return 15
         }
-        if (input === 5) {
-          return 21
-        }
-        return 0
+        return 21
       },
       isFullScreen() {
         const attemptToGetState = element => element && element !== null
