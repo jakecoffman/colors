@@ -190,6 +190,7 @@
         this.lanes[index].length = 0
 
         player.done = true
+        this.calc(this.players[0])
         // check for end of round/game
         if (!this.players.some(p => !p.done)) {
           if (this.endOfGame) {
@@ -198,7 +199,6 @@
           }
           this.lanes.forEach(lane => lane.picked = false)
           this.players.forEach(player => player.done = false)
-          this.calc(this.players[0])
           return
         }
         this.nextPlayer()
