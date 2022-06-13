@@ -18,7 +18,6 @@
         Wilds are automatically counted as the highest scoring color.
         The 2 cards just give you 2 points.
       </p>
-      <p class="small">Each player's score is kept up to date in the circle.</p>
     </section>
 
     <section v-else class="board">
@@ -44,7 +43,7 @@
           <button v-else-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0" class="take">
             {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
           </button>
-          <button v-else disabled>
+          <button v-else disabled :class="{strikeout: lane.picked}" style="white-space: nowrap">
             LANE {{index+1}}
           </button>
           <card v-for="(card, index) of lane" :key="index" :card="card" :rotate="true"/>
@@ -307,6 +306,7 @@
   .board {
     display: grid;
     grid-template-columns: 1fr 3fr 3fr;
+    grid-gap: 1rem;
     max-height: 100%;
     height: 100%;
     max-width: 100%;
@@ -518,7 +518,7 @@
   .four {
     display: grid;
     grid-template-rows: repeat(4, 1fr);
-    grid-gap: .25rem;
+    grid-gap: 1rem;
   }
 
   .five {
@@ -530,6 +530,7 @@
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
     max-height: 100%;
     overflow: hidden;
   }
@@ -539,7 +540,7 @@
   }
 
   #flipped-card {
-    width: 95%;
+    width: 100%;
     margin-left: -1px;
   }
 
@@ -548,7 +549,7 @@
   }
 
   #flip-btn {
-    width: 95%;
+    width: 100%;
     height: 100%;
   }
 
@@ -556,5 +557,9 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-gap: 1rem;
+  }
+
+  .strikeout {
+    text-decoration: line-through;
   }
 </style>
