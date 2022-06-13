@@ -37,8 +37,8 @@
       <!-- Cards -->
       <div :class="{three: numPlayers === 3, four: numPlayers === 4, five: numPlayers === 5}">
         <div v-for="(lane, index) of lanes" :key="index" class="row">
-          <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3">
-            ADD {{index+1}}
+          <button v-if="substate==='add' && !lane.picked" @click="add(index)" :disabled="lane.length === 3" style="white-space: nowrap">
+            DROP {{index+1}}
           </button>
           <button v-else-if="state !== 'end' && substate==='take' && !lane.picked" @click="take(index)" :disabled="lane.length === 0" class="take">
             {{ lane.length === 0 ? 'LANE' : 'TAKE'}} {{index+1}}
@@ -295,7 +295,7 @@
     font-size: 5vw;
     background: black;
     color: rgb(194, 194, 194);
-    font-family: monospace;
+    font-family: ui-monospace, monospace;
   }
 
   .main {
@@ -328,7 +328,7 @@
     color: white;
     padding: .25rem;
     cursor: pointer;
-    font-family: monospace;
+    font-family: ui-monospace, monospace;
   }
 
   [disabled] {
