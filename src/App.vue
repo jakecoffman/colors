@@ -353,6 +353,7 @@
   }
 
   .blue {
+    color: white !important;
     background: blue;
   }
 
