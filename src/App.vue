@@ -28,7 +28,7 @@
         <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none; font-size: 5vw">
           <card :card="flippedCard" style="height: 100%"/>
         </button>
-        <p style="font-size: 5vh; display: flex; flex-direction: column;">
+        <p style="font-size: 5vh; display: flex; flex-direction: column; justify-content: space-between">
           <span v-if="state === 'end'">
             <span>Game Over</span>
             <button @click="newGame()">New Game</button>
@@ -45,7 +45,10 @@
             Flip or Take
           </span>
 
-          <score/>
+          <span>
+            Scoring
+            <score/>
+          </span>
         </p>
       </div>
 
