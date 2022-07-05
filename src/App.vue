@@ -25,7 +25,7 @@
         <button id="flip-btn" :disabled="state === 'end'" v-if="!flippedCard" @click="flip()">
           FLIP
         </button>
-        <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none;">
+        <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none; font-size: 5vw">
           <card :card="flippedCard" style="height: 100%"/>
         </button>
         <p style="font-size: 2rem; margin-left: 1rem; display: flex; flex-direction: column; gap: 1rem;">
