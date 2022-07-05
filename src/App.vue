@@ -28,10 +28,9 @@
         <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none; font-size: 5vw">
           <card :card="flippedCard" style="height: 100%"/>
         </button>
-        <p style="font-size: 2rem; margin-left: 1rem; display: flex; flex-direction: column; gap: 1rem;">
-          <span v-if="state === 'end'" style="display: grid; grid-template-rows: 1fr 1fr 1fr;">
+        <p style="font-size: 5vh; display: flex; flex-direction: column;">
+          <span v-if="state === 'end'">
             <span>Game Over</span>
-            <span style="flex: 1; flex-grow: 2"></span>
             <button @click="newGame()">New Game</button>
           </span>
           <span v-else-if="flippedCard">
@@ -192,6 +191,9 @@
         return Math.floor(Math.random() * Math.floor(max))
       },
       flip() {
+        if (this.flippedCard && this.flippedCard.type !== 'end') {
+          return
+        }
         let canFlip = false
         for (let i = 0; i < this.lanes.length; i++) {
           if (!this.lanes[i].picked && this.lanes[i].length < 3) {
@@ -353,6 +355,9 @@
     },
     mounted() {
       window.addEventListener('keypress', e => {
+        if (this.state === 'end') {
+          return
+        }
         if (e.key === 'f') {
           this.flip()
         } else if (e.key === '1') {
@@ -646,8 +651,7 @@
 
   #flipsville {
     display: grid;
-    grid-template-rows: 1fr 2fr;
-    grid-gap: 1rem;
+    grid-template-rows: .25fr .75fr;
   }
 
   .strikeout {
