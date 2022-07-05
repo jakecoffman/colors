@@ -2,12 +2,12 @@
   <div id="app">
     <section v-if="state==='starting'">
       <button @click="goFullscreen(true)" style="float:right">go fullscreen</button>
-      <h1>Colors</h1>
+      <h1 class="wild-text">Colors</h1>
       <p>select amount of players:</p>
       <div class="flex set-players">
-        <button @click="setPlayers(3)" class="grow">3</button>
-        <button @click="setPlayers(4)" class="grow">4</button>
-        <button @click="setPlayers(5)" class="grow">5</button>
+        <button @click="setPlayers(3)" class="grow orange">3</button>
+        <button @click="setPlayers(4)" class="grow red">4</button>
+        <button @click="setPlayers(5)" class="grow violet">5</button>
       </div>
       <h2>how to play 👇</h2>
       <p class="small">
@@ -15,8 +15,8 @@
         as possible. A large variety of colors will lower your score.
       </p>
       <p class="small">
-        Wilds are automatically counted as the highest scoring color.
-        The 2 cards just give you 2 points.
+        <span class="wild-text">Wilds</span> are automatically counted as the highest scoring color.
+        The <span class="plus2">2 cards</span> give you 2 points.
       </p>
     </section>
 
@@ -457,7 +457,7 @@
   }
 
   .brown {
-    background: brown;
+    background: #804000;
   }
 
   .green {
@@ -469,7 +469,7 @@
   }
 
   .violet {
-    background: violet;
+    background: #7F00FF;
   }
 
   .yellow {
@@ -481,6 +481,12 @@
     animation: rainbow 3s infinite;
     -webkit-animation: rainbow 3s infinite;
     -ms-animation: rainbow 3s infinite;
+  }
+
+  .wild-text {
+    animation: rainbow-text 3s infinite;
+    -webkit-animation: rainbow-text 3s infinite;
+    -ms-animation: rainbow-text 3s infinite;
   }
 
   .plus2 {
@@ -533,7 +539,7 @@
       background: yellow;
     }
     75% {
-      background: violet;
+      background: #7F00FF;
     }
     100% {
       background: orange;
@@ -548,7 +554,7 @@
       background: blue;
     }
     30% {
-      background: brown;
+      background: #804000;
     }
     45% {
       background: green;
@@ -557,7 +563,7 @@
       background: yellow;
     }
     75% {
-      background: violet;
+      background: #7F00FF;
     }
     100% {
       background: orange;
@@ -572,7 +578,7 @@
       background: blue;
     }
     30% {
-      background: brown;
+      background: #804000;
     }
     45% {
       background: green;
@@ -581,10 +587,82 @@
       background: yellow;
     }
     75% {
-      background: violet;
+      background: #7F00FF;
     }
     100% {
       background: orange;
+    }
+  }
+
+  @-webkit-keyframes rainbow-text {
+    0% {
+      color: red;
+    }
+    15% {
+      color: blue;
+    }
+    30% {
+      color: brown;
+    }
+    45% {
+      color: green;
+    }
+    60% {
+      color: yellow;
+    }
+    75% {
+      color: #7F00FF;
+    }
+    100% {
+      color: orange;
+    }
+  }
+
+  @-ms-keyframes rainbow-text {
+    0% {
+      color: red;
+    }
+    15% {
+      color: blue;
+    }
+    30% {
+      color: #804000;
+    }
+    45% {
+      color: green;
+    }
+    60% {
+      color: yellow;
+    }
+    75% {
+      color: #7F00FF;
+    }
+    100% {
+      color: orange;
+    }
+  }
+
+  @keyframes rainbow-text {
+    0% {
+      color: red;
+    }
+    15% {
+      color: blue;
+    }
+    30% {
+      color: #804000;
+    }
+    45% {
+      color: green;
+    }
+    60% {
+      color: yellow;
+    }
+    75% {
+      color: #7F00FF;
+    }
+    100% {
+      color: orange;
     }
   }
 
