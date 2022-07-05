@@ -363,6 +363,8 @@
           this.addOrTake(2)
         } else if (e.key === '4') {
           this.addOrTake(3)
+        } else if (e.key === '5') {
+          this.addOrTake(4)
         }
       })
     },
