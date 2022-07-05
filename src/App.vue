@@ -35,7 +35,7 @@
             <button @click="newGame()">New Game</button>
           </span>
           <span v-else-if="flippedCard">
-            <span v-if="flippedCard === 'end'">
+            <span v-if="flippedCard.type === 'end'">
               Final round!
             </span>
             <span v-else>
@@ -120,24 +120,27 @@
     computed: {},
     methods: {
       newGame() {
-        this.state = 'playing'
         this.substate = 'take'
         this.flippedCard = null
         this.endOfGame = false
 
-        this.deck = []
         this.lanes = []
         this.buildDeck()
-        for (let i = 0; i < this.players.length; i++) {
+        const lastPlayers = this.players
+        this.players = []
+        for (let i = 0; i < this.numPlayers; i++) {
           this.lanes.push([])
-          const p = this.players[i]
-          p.score = 0
-          p.plus2 = 0
-          p.wild = 0
+          this.players.push({
+            name: lastPlayers[i].name,
+            score: 0,
+            plus2: 0,
+            wild: 0
+          })
           colors.forEach(color => this.players[i][color] = 0)
         }
         this.shuffle(this.deck)
         this.deck.splice(this.deck.length - 15, 0, {type: 'end'})
+        this.state = 'playing'
       },
       setPlayers(num) {
         this.numPlayers = num
@@ -207,14 +210,36 @@
         this.substate = 'add'
       },
       add(index) {
-        if (!this.lanes[index].picked && this.lanes[index].length < 3) {
-          this.lanes[index].push(this.flippedCard)
-          this.flippedCard = null
+        if (!this.flippedCard) {
+          return
         }
+        if (this.flippedCard.type === 'end') {
+          return
+        }
+        if (index < 0 || index > this.lanes.length-1) {
+          return
+        }
+        if (this.lanes[index].picked) {
+          return
+        }
+        if (this.lanes[index].length >= 3) {
+          return
+        }
+        this.lanes[index].push(this.flippedCard)
+        this.flippedCard = null
         this.substate = 'take'
         this.nextPlayer()
       },
       take(index) {
+        if (index < 0 || index > this.lanes.length-1) {
+          return
+        }
+        if (this.lanes[index].picked) {
+          return
+        }
+        if (this.lanes[index].length === 0) {
+          return 0
+        }
         this.lanes[index].picked = true
         const player = this.players[0]
         this.lanes[index].forEach(card => {
@@ -317,8 +342,30 @@
         } else if (document.msExitFullscreen) {
           document.msExitFullscreen();
         }
+      },
+      addOrTake(index) {
+        if (this.flippedCard) {
+          this.add(index)
+        } else {
+          this.take(index)
+        }
       }
-    }
+    },
+    mounted() {
+      window.addEventListener('keypress', e => {
+        if (e.key === 'f') {
+          this.flip()
+        } else if (e.key === '1') {
+          this.addOrTake(0)
+        } else if (e.key === '2') {
+          this.addOrTake(1)
+        } else if (e.key === '3') {
+          this.addOrTake(2)
+        } else if (e.key === '4') {
+          this.addOrTake(3)
+        }
+      })
+    },
   }
 </script>
 
@@ -569,7 +616,6 @@
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 1rem;
     max-height: 100%;
     overflow: hidden;
   }
