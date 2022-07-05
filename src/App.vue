@@ -3,13 +3,13 @@
     <section v-if="state==='starting'">
       <button @click="goFullscreen(true)" style="float:right">go fullscreen</button>
       <h1>Colors</h1>
-      <p>select number of players:</p>
+      <p>select amount of players:</p>
       <div class="flex set-players">
         <button @click="setPlayers(3)" class="grow">3</button>
         <button @click="setPlayers(4)" class="grow">4</button>
         <button @click="setPlayers(5)" class="grow">5</button>
       </div>
-      <h2>how to play</h2>
+      <h2>how to play 👇</h2>
       <p class="small">
         Get the most points by collecting as much of the same color
         as possible. A large variety of colors will lower your score.
@@ -376,6 +376,10 @@
     height: 100%;
     margin: 0;
     padding: 0;
+  }
+
+  h1 {
+    margin-top: 0;
   }
 
   body {
