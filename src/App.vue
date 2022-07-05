@@ -25,8 +25,10 @@
         <button id="flip-btn" :disabled="state === 'end'" v-if="!flippedCard" @click="flip()">
           FLIP
         </button>
-        <card v-else :card="flippedCard" id="flipped-card"/>
-        <p style="font-size: 2rem; margin-left: 1rem;">
+        <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none;">
+          <card :card="flippedCard" style="height: 100%"/>
+        </button>
+        <p style="font-size: 2rem; margin-left: 1rem; display: flex; flex-direction: column; gap: 1rem;">
           <span v-if="state === 'end'" style="display: grid; grid-template-rows: 1fr 1fr 1fr;">
             <span>Game Over</span>
             <span style="flex: 1; flex-grow: 2"></span>
@@ -43,6 +45,8 @@
           <span v-else>
             Flip or Take
           </span>
+
+          <score/>
         </p>
       </div>
 
@@ -85,6 +89,7 @@
 </template>
 
 <script>
+  import Score from "@/components/Score";
   window.onbeforeunload = function () {
     return true;
   };
@@ -96,6 +101,7 @@
   export default {
     name: 'app',
     components: {
+      Score,
       Card
     },
     data() {
@@ -588,7 +594,7 @@
 
   #flipsville {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
     grid-gap: 1rem;
   }
 
