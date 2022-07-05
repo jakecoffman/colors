@@ -22,15 +22,27 @@
 
     <section v-else class="board">
       <div id="flipsville">
-        <button id="flip-btn" :disabled="state === 'end' || (flippedCard && flippedCard.type !== 'end')" @click="flip()">
+        <button id="flip-btn" :disabled="state === 'end'" v-if="!flippedCard" @click="flip()">
           FLIP
         </button>
-        <card v-if="flippedCard" :card="flippedCard" id="flipped-card"/>
-        <p v-else-if="state === 'end'">
-          Game Over
-        </p>
-        <p style="font-size: 1.5rem; margin-left: 2px;" v-else>
-          Flip or Take
+        <card v-else :card="flippedCard" id="flipped-card"/>
+        <p style="font-size: 2rem; margin-left: 1rem;">
+          <span v-if="state === 'end'" style="display: grid; grid-template-rows: 1fr 1fr 1fr;">
+            <span>Game Over</span>
+            <span style="flex: 1; flex-grow: 2"></span>
+            <button @click="newGame()">New Game</button>
+          </span>
+          <span v-else-if="flippedCard">
+            <span v-if="flippedCard === 'end'">
+              Final round!
+            </span>
+            <span v-else>
+              Choose place
+            </span>
+          </span>
+          <span v-else>
+            Flip or Take
+          </span>
         </p>
       </div>
 
@@ -101,6 +113,26 @@
     },
     computed: {},
     methods: {
+      newGame() {
+        this.state = 'playing'
+        this.substate = 'take'
+        this.flippedCard = null
+        this.endOfGame = false
+
+        this.deck = []
+        this.lanes = []
+        this.buildDeck()
+        for (let i = 0; i < this.players.length; i++) {
+          this.lanes.push([])
+          const p = this.players[i]
+          p.score = 0
+          p.plus2 = 0
+          p.wild = 0
+          colors.forEach(color => this.players[i][color] = 0)
+        }
+        this.shuffle(this.deck)
+        this.deck.splice(this.deck.length - 15, 0, {type: 'end'})
+      },
       setPlayers(num) {
         this.numPlayers = num
         this.buildDeck()
