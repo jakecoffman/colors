@@ -1,8 +1,17 @@
 <template>
   <div id="app">
+    <button v-if="!isFull" @click="goFullscreen(true)" style="font-size: 24pt; position: absolute; right: 0; top: 0;">
+      fullscreen
+    </button>
     <section v-if="state==='starting'">
-      <button @click="goFullscreen(true)" style="float:right">go fullscreen</button>
-      <h1 class="wild-text">Colors</h1>
+      <h1>
+        <span style="color: red;">C</span>
+        <span style="color: blue;">o</span>
+        <span style="color: #804000;">l</span>
+        <span style="color: green;">o</span>
+        <span style="color: yellow;">r</span>
+        <span style="color: #7F00FF;">s</span>
+      </h1>
       <p>select amount of players:</p>
       <div class="flex set-players">
         <button @click="setPlayers(3)" class="grow orange">3</button>
@@ -116,7 +125,9 @@
 
         players: [],
         deck: [],
-        lanes: []
+        lanes: [],
+
+        isFull: false
       }
     },
     computed: {},
@@ -322,7 +333,7 @@
       },
       isFullScreen() {
         const attemptToGetState = element => element && element !== null
-        return attemptToGetState(document.fullscreenElement) ||
+        this.isFull = attemptToGetState(document.fullscreenElement) ||
           attemptToGetState(document.webkitFullscreenElement) ||
           attemptToGetState(document.mozFullScreenElement) ||
           attemptToGetState(document.msFullscreenElement)
@@ -357,6 +368,7 @@
       }
     },
     mounted() {
+      setInterval(this.isFullScreen, 1000)
       window.addEventListener('keypress', e => {
         if (this.state === 'end') {
           return
@@ -387,7 +399,16 @@
   }
 
   h1 {
-    margin-top: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+
+
+  p {
+    margin: 0;
+    margin-left: 1rem;
+    font-size: 14pt;
   }
 
   body {
@@ -412,9 +433,10 @@
   }
 
   h2 {
-    font-size: 48pt;
+    font-size: 24pt;
     text-align: center;
     margin: 0;
+    margin-bottom: 1rem;
     padding: 0;
     width: 100%;
   }
