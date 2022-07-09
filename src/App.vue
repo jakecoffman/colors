@@ -22,8 +22,6 @@
       <p class="small">
         Get the most points by collecting as much of the same color
         as possible. A large variety of colors will lower your score.
-      </p>
-      <p class="small">
         <span class="wild-text">Wilds</span> are automatically counted as the highest scoring color.
         The <span class="plus2">2 cards</span> give you 2 points.
       </p>
@@ -744,7 +742,7 @@
   }
 
   .small {
-    font-size: 24pt;
+    font-size: 16pt;
   }
 
   #flip-btn {
