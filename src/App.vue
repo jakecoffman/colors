@@ -35,7 +35,7 @@
         <button id="flipped-card" v-else @click="flip()" :disabled="flippedCard.type !== 'end'" style="background: none; font-size: 5vw">
           <card :card="flippedCard" style="height: 100%"/>
         </button>
-        <p style="font-size: 5vh; display: flex; flex-direction: column; justify-content: space-between">
+        <p style="font-size: 5vh; display: flex; flex-direction: column; justify-content: space-between; margin: 0;">
           <span v-if="state === 'end'">
             <span>Game Over</span>
             <button @click="newGame()">New Game</button>
@@ -174,7 +174,7 @@
         this.deck = []
         const numColors = this.numPlayers === 3 ? 6 : 7;
         for (let i = 0; i < numColors; i++) {
-          for (let i = 0; i < 7; i++) {
+          for (let j = 0; j < 7; j++) {
             this.deck.push({type: 'color', color: colors[i]})
           }
         }
@@ -753,6 +753,8 @@
   #flipsville {
     display: grid;
     grid-template-rows: .25fr .75fr;
+    text-align: center;
+    grid-gap: 1rem;
   }
 
   .strikeout {
